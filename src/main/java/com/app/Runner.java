@@ -43,7 +43,7 @@ public class Runner implements CommandLineRunner {
 	private SpanAccessor spanAccessor; 
 
     @Autowired
-    private DanielPostProcessor dpp;
+    private CustomPostProcessor dpp;
     
     @Override
     public void run(String... args) throws Exception {
