@@ -20,9 +20,6 @@ package com.app;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.cloud.sleuth.SpanAccessor;
-import org.springframework.cloud.sleuth.Tracer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 
@@ -30,29 +27,25 @@ import org.springframework.stereotype.Component;
 public class Runner implements CommandLineRunner {
     final static String queueName = "spring-boot";
 
+    /*
 	@Autowired
 	private Tracer tracer;
+	
+    @Autowired
+	private SpanAccessor spanAccessor;
+	*/ 
     
     @Autowired
     private RabbitTemplate rabbitTemplate;
-	
-    @Autowired
-    private ConfigurableApplicationContext context;
-    
-    @Autowired
-	private SpanAccessor spanAccessor; 
+
 
     @Autowired
-    private CustomPostProcessor dpp;
+    private CustomPostProcessor cpp;
     
     @Override
     public void run(String... args) throws Exception {
-        //System.out.println("Sending message...");
-        rabbitTemplate.setBeforePublishPostProcessors(dpp);
+        rabbitTemplate.setBeforePublishPostProcessors(cpp);
         
         rabbitTemplate.convertAndSend(queueName, "Hello from RabbitMQ!");
-        
-        //context.close();
-    }
-
+        }
 }
